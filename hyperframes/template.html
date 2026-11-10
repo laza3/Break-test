@@ -1,0 +1,432 @@
+<!doctype html>
+<html lang="fr" style="overflow:hidden; margin:0">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=1920, height=1080" />
+<title>The Break Lounge — Teaser</title>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@hyperframes/core/dist/hyperframe.runtime.iife.js"></script>
+<style>
+@font-face{font-family:"BL Display";font-weight:400;font-style:normal;font-display:block;src:url(data:font/woff2;base64,__F_ANTON__) format("woff2");}
+@font-face{font-family:"BL Cond";font-weight:600;font-style:normal;font-display:block;src:url(data:font/woff2;base64,__F_BC600__) format("woff2");}
+@font-face{font-family:"BL Cond";font-weight:800;font-style:normal;font-display:block;src:url(data:font/woff2;base64,__F_BC800__) format("woff2");}
+@font-face{font-family:"BL Mono";font-weight:400;font-style:normal;font-display:block;src:url(data:font/woff2;base64,__F_SM400__) format("woff2");}
+@font-face{font-family:"BL Mono";font-weight:700;font-style:normal;font-display:block;src:url(data:font/woff2;base64,__F_SM700__) format("woff2");}
+
+:root{
+  --bg:#07060b;
+  --ink:#ffffff;
+  --magenta:#ff2e8b;
+  --cyan:#00e5ff;
+  --violet:#7b2ff7;
+  --gold:#e8b55b;
+  --muted:rgba(255,255,255,.55);
+  --font-display:"BL Display",sans-serif;
+  --font-cond:"BL Cond",sans-serif;
+  --font-mono:"BL Mono",monospace;
+  --img-a:url(data:image/jpeg;base64,__IMG_A__);
+  --img-b:url(data:image/jpeg;base64,__IMG_B__);
+  --img-c:url(data:image/jpeg;base64,__IMG_C__);
+  --img-d:url(data:image/jpeg;base64,__IMG_D__);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{width:1920px;height:1080px;overflow:hidden;background:var(--bg);color:var(--ink);
+  -webkit-font-smoothing:antialiased;}
+.scene{position:absolute;top:0;left:0;width:1920px;height:1080px;overflow:hidden;background:var(--bg);}
+.scene-content{width:100%;height:100%;position:relative;z-index:2;}
+
+/* ---------- decoratives ---------- */
+.vign{position:absolute;inset:0;z-index:3;pointer-events:none;
+  background:radial-gradient(ellipse 78% 70% at 50% 50%, transparent 38%, rgba(4,2,8,.86) 100%);}
+.grain{position:absolute;inset:0;pointer-events:none;z-index:40;opacity:.16;mix-blend-mode:overlay;
+  background-image:radial-gradient(rgba(255,255,255,.09) 1px,transparent 1.2px),radial-gradient(rgba(0,0,0,.2) 1px,transparent 1.2px);
+  background-size:3px 3px,5px 5px;background-position:0 0,1px 2px;}
+.scan{position:absolute;inset:0;pointer-events:none;z-index:38;opacity:.3;
+  background:repeating-linear-gradient(to bottom,rgba(255,255,255,.055) 0 1px,transparent 1px 4px);}
+.glow-m{position:absolute;border-radius:50%;pointer-events:none;filter:blur(90px);background:var(--magenta);}
+.glow-c{position:absolute;border-radius:50%;pointer-events:none;filter:blur(90px);background:var(--cyan);}
+.isogrid{position:absolute;left:-40%;top:-10%;width:180%;height:150%;pointer-events:none;z-index:1;
+  background-image:
+    repeating-linear-gradient(to right, rgba(255,46,139,.22) 0 1.5px, transparent 1.5px 96px),
+    repeating-linear-gradient(to bottom, rgba(0,229,255,.17) 0 1.5px, transparent 1.5px 96px);
+  -webkit-mask-image:radial-gradient(ellipse 72% 66% at 50% 66%, #000 0%, transparent 84%);
+          mask-image:radial-gradient(ellipse 72% 66% at 50% 66%, #000 0%, transparent 84%);}
+
+/* ---------- isometric cards ---------- */
+.card{position:absolute;overflow:hidden;background:#0b0a12;
+  border:2px solid rgba(255,255,255,.14);
+  box-shadow:0 60px 120px rgba(0,0,0,.75), 0 0 0 1px rgba(255,46,139,.28), 0 0 70px rgba(255,46,139,.22);
+  backface-visibility:hidden;will-change:transform;}
+.card .media{position:absolute;inset:-6%;background-size:cover;background-position:center;will-change:transform;}
+.card .edge{position:absolute;inset:0;pointer-events:none;
+  box-shadow:inset 0 0 0 2px rgba(0,229,255,.32), inset 0 0 60px rgba(123,47,247,.28);}
+.card .shade{position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(200deg, rgba(255,46,139,.16) 0%, transparent 45%, rgba(0,0,0,.45) 100%);}
+.cardlabel{position:absolute;left:34px;bottom:28px;display:flex;align-items:center;gap:20px;}
+.cardlabel .accent{display:block;width:10px;height:64px;border-radius:2px;}
+.cardlabel .disp{display:inline-block;color:#fff;text-shadow:0 6px 30px rgba(0,0,0,.9);}
+.bracket{position:absolute;pointer-events:none;}
+.bracket i{position:absolute;width:46px;height:46px;border:3px solid var(--cyan);box-shadow:0 0 20px rgba(0,229,255,.75);}
+.bracket i.tl{left:0;top:0;border-right:none;border-bottom:none;}
+.bracket i.tr{right:0;top:0;border-left:none;border-bottom:none;}
+.bracket i.bl{left:0;bottom:0;border-right:none;border-top:none;}
+.bracket i.br{right:0;bottom:0;border-left:none;border-top:none;}
+.sweep{position:absolute;top:-25%;left:0;width:26%;height:150%;pointer-events:none;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.42),transparent);
+  transform:skewX(-18deg);mix-blend-mode:screen;}
+
+/* ---------- type ---------- */
+.disp{font-family:var(--font-display);font-weight:400;line-height:.88;text-transform:uppercase;letter-spacing:.005em;}
+.cond{font-family:var(--font-cond);font-weight:800;text-transform:uppercase;line-height:1;}
+.mono{font-family:var(--font-mono);font-weight:400;text-transform:uppercase;letter-spacing:.26em;}
+.rgbwrap{position:relative;display:inline-block;}
+.rgbwrap .lay{position:absolute;left:0;top:0;white-space:nowrap;}
+.rgbwrap .lay.m{color:var(--magenta);mix-blend-mode:screen;}
+.rgbwrap .lay.c{color:var(--cyan);mix-blend-mode:screen;}
+.rgbwrap .base{position:relative;white-space:nowrap;color:#fff;}
+.tag{position:absolute;font-family:var(--font-mono);font-weight:400;font-size:21px;letter-spacing:.3em;
+  color:rgba(255,255,255,.62);text-transform:uppercase;}
+.bar{position:absolute;height:9px;background:var(--magenta);box-shadow:0 0 26px var(--magenta);transform-origin:left center;}
+.rule{position:absolute;height:2px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.55),transparent);transform-origin:center;}
+.streak{position:absolute;height:3px;border-radius:3px;mix-blend-mode:screen;}
+
+/* ---------- 8 ball ---------- */
+.ball{position:absolute;border-radius:50%;background:radial-gradient(circle at 34% 28%, #4a4a55 0%, #15141b 48%, #050509 100%);
+  box-shadow:0 0 60px rgba(255,46,139,.65), inset -14px -18px 40px rgba(0,0,0,.9);display:flex;align-items:center;justify-content:center;}
+.ball .pip{width:52%;height:52%;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;
+  font-family:var(--font-display);color:#0a0910;}
+
+/* ---------- scene 1 ---------- */
+#s1-blur{position:absolute;inset:-14%;background-image:var(--img-a);background-size:cover;background-position:center;
+  filter:blur(34px) saturate(1.5) brightness(.8);opacity:.5;}
+.tear{position:absolute;left:0;width:100%;background:rgba(255,255,255,.1);mix-blend-mode:screen;}
+.scanbar{position:absolute;left:0;width:100%;height:3px;background:linear-gradient(90deg,transparent,var(--cyan),transparent);
+  box-shadow:0 0 34px var(--cyan);opacity:.9;}
+
+/* ---------- scene 7 ---------- */
+.flash{position:absolute;inset:0;background:var(--magenta);mix-blend-mode:screen;pointer-events:none;z-index:35;opacity:0;}
+</style>
+</head>
+<body>
+<div id="main" data-composition-id="main" data-width="1920" data-height="1080" data-start="0" data-duration="15">
+
+  <!-- ================= SCENE 1 : LEAK (0 - 2.0) ================= -->
+  <div class="scene clip" id="s1" data-start="0" data-duration="2" data-track-index="0">
+    <div id="s1-blur"></div>
+    <div class="isogrid" id="s1-grid"></div>
+    <div class="glow-m" id="s1-gm" style="width:760px;height:760px;left:580px;top:160px;opacity:.3;"></div>
+    <div class="vign"></div>
+    <div class="scene-content">
+      <div class="tag" id="s1-t1" style="left:96px;top:86px;">Fichier 01 — Confidentiel</div>
+      <div class="tag" id="s1-t2" style="right:96px;top:86px;text-align:right;">Andranomena · 18°55'S 47°31'E</div>
+      <div class="tag" id="s1-t3" style="left:96px;bottom:86px;">Source : anonyme</div>
+      <div class="tag" id="s1-t4" style="right:96px;bottom:86px;color:var(--magenta);">&#9632; Rec</div>
+      <div id="s1-lock" style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);text-align:center;">
+        <svg id="s1-warn" width="96" height="86" viewBox="0 0 96 86" style="display:block;margin:0 auto 26px;">
+          <path d="M48 6 L92 80 L4 80 Z" fill="none" stroke="#ff2e8b" stroke-width="6" stroke-linejoin="round"/>
+          <rect x="44" y="30" width="8" height="28" fill="#ff2e8b"/>
+          <rect x="44" y="64" width="8" height="8" fill="#ff2e8b"/>
+        </svg>
+        <div class="rgbwrap disp" id="s1-leak" style="font-size:208px;">
+          <span class="lay m" id="s1-lm">Leak</span>
+          <span class="lay c" id="s1-lc">Leak</span>
+          <span class="base">Leak</span>
+        </div>
+        <div class="mono" id="s1-sub" style="font-size:25px;margin-top:30px;color:rgba(255,255,255,.72);">Dossier intercepté</div>
+      </div>
+      <div class="tear" id="s1-tear1" style="top:300px;height:16px;"></div>
+      <div class="tear" id="s1-tear2" style="top:760px;height:10px;"></div>
+      <div class="scanbar" id="s1-scan" style="top:0;"></div>
+    </div>
+    <div class="scan"></div><div class="grain"></div>
+  </div>
+
+  <!-- ================= SCENE 2 : REVEAL (2.0 - 4.5) ================= -->
+  <div class="scene clip" id="s2" data-start="2" data-duration="2.5" data-track-index="0" style="visibility:hidden;">
+    <div class="isogrid" id="s2-grid"></div>
+    <div class="glow-m" style="width:820px;height:820px;left:-180px;top:380px;opacity:.26;"></div>
+    <div class="glow-c" style="width:700px;height:700px;right:-160px;top:-120px;opacity:.2;"></div>
+    <div class="scene-content">
+      <div class="card" id="s2-card" style="left:250px;top:92px;width:1420px;height:760px;">
+        <div class="media" id="s2-media" style="background-image:var(--img-a);"></div>
+        <div class="shade"></div><div class="edge"></div>
+        <div class="sweep" id="s2-sweep"></div>
+      </div>
+      <div style="position:absolute;left:0;bottom:0;width:100%;height:420px;
+        background:linear-gradient(to top, #07060b 18%, rgba(7,6,11,.82) 52%, transparent 100%);"></div>
+      <div class="tag" id="s2-tag" style="left:124px;top:104px;">01 / 04 — Salle de billard</div>
+      <div class="disp" id="s2-w1" style="position:absolute;left:124px;bottom:318px;font-size:146px;">Quelque</div>
+      <div class="disp" id="s2-w2" style="position:absolute;left:124px;bottom:188px;font-size:146px;">Chose</div>
+      <div class="disp" id="s2-w3" style="position:absolute;left:124px;bottom:58px;font-size:146px;color:var(--magenta);
+        text-shadow:0 0 54px rgba(255,46,139,.75);">Arrive</div>
+      <div class="bar" id="s2-bar" style="left:128px;bottom:28px;width:560px;"></div>
+    </div>
+    <div class="vign"></div><div class="scan"></div><div class="grain"></div>
+  </div>
+
+  <!-- ================= SCENE 3 : ANDRANOMENA (4.5 - 6.0) ================= -->
+  <div class="scene clip" id="s3" data-start="4.5" data-duration="1.5" data-track-index="0" style="visibility:hidden;">
+    <div class="card" id="s3-card" style="left:-120px;top:-90px;width:2160px;height:1260px;border:none;box-shadow:none;">
+      <div class="media" id="s3-media" style="background-image:var(--img-a);background-position:76% 42%;"></div>
+    </div>
+    <div style="position:absolute;inset:0;background:rgba(7,6,11,.48);"></div>
+    <div class="isogrid" id="s3-grid"></div>
+    <div class="scene-content">
+      <div class="streak" id="s3-st1" style="left:-600px;top:252px;width:900px;background:linear-gradient(90deg,transparent,var(--magenta),transparent);box-shadow:0 0 30px var(--magenta);"></div>
+      <div class="streak" id="s3-st2" style="left:-600px;top:842px;width:760px;background:linear-gradient(90deg,transparent,var(--cyan),transparent);box-shadow:0 0 30px var(--cyan);"></div>
+      <div id="s3-lock" style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);text-align:center;width:1700px;">
+        <div class="mono" id="s3-kick" style="font-size:26px;color:var(--cyan);margin-bottom:34px;">Coordonnées confirmées</div>
+        <div class="disp" id="s3-head" style="font-size:198px;">
+          <span class="ch">À</span> <span class="ch">A</span><span class="ch">n</span><span class="ch">d</span><span class="ch">r</span><span class="ch">a</span><span class="ch">n</span><span class="ch">o</span><span class="ch">m</span><span class="ch">e</span><span class="ch">n</span><span class="ch">a</span>
+        </div>
+        <div class="rule" id="s3-rule" style="left:50%;margin-left:-420px;bottom:-54px;width:840px;"></div>
+      </div>
+    </div>
+    <div class="vign"></div><div class="scan"></div><div class="grain"></div>
+  </div>
+
+  <!-- ================= SCENE 4 : TRIPTYQUE (6.0 - 9.5) ================= -->
+  <div class="scene clip" id="s4" data-start="6" data-duration="3.5" data-track-index="0" style="visibility:hidden;">
+    <div class="isogrid" id="s4-grid"></div>
+    <div class="glow-m" style="width:900px;height:900px;left:-140px;top:420px;opacity:.19;"></div>
+    <div class="glow-c" style="width:820px;height:820px;right:-160px;top:-180px;opacity:.15;"></div>
+    <div class="scene-content">
+      <div id="s4-stack" style="position:absolute;inset:0;">
+        <div class="card" id="s4-c3" style="left:1190px;top:95px;width:700px;height:455px;z-index:3;">
+          <div class="media" id="s4-m3" style="background-image:var(--img-d);"></div>
+          <div class="shade"></div><div class="edge"></div>
+          <div class="cardlabel"><span class="accent" style="background:var(--gold);box-shadow:0 0 24px var(--gold);"></span><span class="disp" id="s4-l3" style="font-size:78px;">Lounge</span></div>
+        </div>
+        <div class="card" id="s4-c2" style="left:630px;top:300px;width:700px;height:455px;z-index:2;">
+          <div class="media" id="s4-m2" style="background-image:var(--img-c);"></div>
+          <div class="shade"></div><div class="edge"></div>
+          <div class="cardlabel"><span class="accent" style="background:var(--cyan);box-shadow:0 0 24px var(--cyan);"></span><span class="disp" id="s4-l2" style="font-size:78px;">Bar</span></div>
+        </div>
+        <div class="card" id="s4-c1" style="left:70px;top:505px;width:700px;height:455px;z-index:1;">
+          <div class="media" id="s4-m1" style="background-image:var(--img-b);"></div>
+          <div class="shade"></div><div class="edge"></div>
+          <div class="cardlabel"><span class="accent" style="background:var(--magenta);box-shadow:0 0 24px var(--magenta);"></span><span class="disp" id="s4-l1" style="font-size:78px;">Billard</span></div>
+        </div>
+      </div>
+      <div class="tag" id="s4-tag" style="left:96px;top:92px;">Trois espaces · un seul endroit</div>
+    </div>
+    <div class="flash" id="s4-flash"></div>
+    <div class="vign"></div><div class="scan"></div><div class="grain"></div>
+  </div>
+
+  <!-- ================= SCENE 5 : LOGO (9.5 - 12.0) ================= -->
+  <div class="scene clip" id="s5" data-start="9.5" data-duration="2.5" data-track-index="0" style="visibility:hidden;">
+    <div id="s5-media" style="position:absolute;inset:0;background-image:var(--img-d);background-size:cover;background-position:center 46%;"></div>
+    <div id="s5-dark" style="position:absolute;inset:0;background:rgba(7,6,11,.42);"></div>
+    <div id="s5-scrim" style="position:absolute;inset:0;
+      background:linear-gradient(90deg, rgba(7,6,11,0) 0%, rgba(7,6,11,.1) 30%, rgba(7,6,11,.74) 54%, rgba(7,6,11,.93) 100%);"></div>
+    <div class="scene-content">
+      <div class="bracket" id="s5-br" style="left:116px;top:222px;width:620px;height:238px;">
+        <i class="tl"></i><i class="tr"></i><i class="bl"></i><i class="br"></i>
+      </div>
+      <div class="mono" id="s5-brtag" style="position:absolute;left:120px;top:482px;font-size:20px;color:var(--cyan);">Logo officiel · confirmé</div>
+      <div id="s5-lockwrap" style="position:absolute;left:1004px;top:0;width:856px;height:1080px;
+        display:flex;flex-direction:column;justify-content:center;">
+        <div id="s5-lock" style="text-align:left;">
+          <div class="ball" id="s5-ball" style="position:relative;margin:0 0 30px;width:116px;height:116px;">
+            <div class="pip" style="font-size:48px;">8</div>
+          </div>
+          <div class="disp" id="s5-n1" style="font-size:150px;color:#fff;text-shadow:0 0 70px rgba(255,255,255,.3);">The Break</div>
+          <div class="disp" id="s5-n2" style="font-size:150px;color:var(--gold);text-shadow:0 0 70px rgba(232,181,91,.6);">Lounge</div>
+          <div class="cond" id="s5-sub" style="font-size:40px;letter-spacing:.34em;margin-top:34px;color:var(--magenta);
+            text-shadow:0 0 40px rgba(255,46,139,.7);">Billard · Bar · Lounge</div>
+        </div>
+      </div>
+      <div class="rule" id="s5-r1" style="left:1004px;top:206px;width:856px;"></div>
+      <div class="rule" id="s5-r2" style="left:1004px;bottom:206px;width:856px;"></div>
+    </div>
+    <div class="vign"></div><div class="scan"></div><div class="grain"></div>
+  </div>
+
+  <!-- ================= SCENE 6 : COMING SOON (12.0 - 13.5) ================= -->
+  <div class="scene clip" id="s6" data-start="12" data-duration="1.5" data-track-index="0" style="visibility:hidden;">
+    <div class="isogrid" id="s6-grid"></div>
+    <div class="glow-m" id="s6-gm" style="width:1200px;height:1200px;left:360px;top:-60px;opacity:.3;"></div>
+    <div class="scene-content">
+      <div id="s6-shake" style="position:absolute;inset:0;">
+        <div class="ball" id="s6-ball" style="left:50%;margin-left:-82px;top:198px;width:164px;height:164px;">
+          <div class="pip" style="font-size:70px;">8</div>
+        </div>
+        <div class="disp" id="s6-cs" style="position:absolute;left:0;top:452px;width:100%;text-align:center;font-size:238px;">
+          <span class="ch">C</span><span class="ch">o</span><span class="ch">m</span><span class="ch">i</span><span class="ch">n</span><span class="ch">g</span><span class="ch">&nbsp;</span><span class="ch">S</span><span class="ch">o</span><span class="ch">o</span><span class="ch">n</span>
+        </div>
+        <div class="mono" id="s6-sub" style="position:absolute;left:0;top:760px;width:100%;text-align:center;font-size:30px;color:var(--cyan);">Ouverture imminente</div>
+      </div>
+    </div>
+    <div class="flash" id="s6-flash"></div>
+    <div class="vign"></div><div class="scan"></div><div class="grain"></div>
+  </div>
+
+  <!-- ================= SCENE 7 : CARTE FINALE (13.5 - 15.0) ================= -->
+  <div class="scene clip" id="s7" data-start="13.5" data-duration="1.5" data-track-index="0" style="visibility:hidden;">
+    <div class="isogrid" id="s7-grid"></div>
+    <div class="glow-m" id="s7-gm" style="width:1000px;height:1000px;left:460px;top:60px;opacity:.24;"></div>
+    <div class="scene-content">
+      <div id="s7-lock" style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);text-align:center;">
+        <div class="ball" id="s7-ball" style="position:relative;margin:0 auto 34px;width:104px;height:104px;">
+          <div class="pip" style="font-size:44px;">8</div>
+        </div>
+        <div class="disp" id="s7-n" style="font-size:152px;color:var(--gold);text-shadow:0 0 64px rgba(232,181,91,.55);">The Break Lounge</div>
+        <div class="mono" id="s7-loc" style="font-size:31px;margin-top:38px;color:rgba(255,255,255,.8);">Andranomena · Antananarivo</div>
+        <div class="cond" id="s7-open" style="font-size:58px;letter-spacing:.3em;margin-top:34px;color:var(--magenta);
+          text-shadow:0 0 44px rgba(255,46,139,.8);">Ouverture très bientôt</div>
+      </div>
+      <div class="rule" id="s7-r1" style="left:50%;margin-left:-440px;top:214px;width:880px;"></div>
+      <div class="rule" id="s7-r2" style="left:50%;margin-left:-440px;bottom:214px;width:880px;"></div>
+      <div class="scanbar" id="s7-scan" style="top:0;opacity:.55;"></div>
+    </div>
+    <div class="vign"></div><div class="scan"></div><div class="grain"></div>
+  </div>
+</div>
+
+<script>
+window.__timelines = window.__timelines || {};
+var tl = gsap.timeline({ paused: true });
+
+/* ---- constant isometric grid pose (set once, not animated into existence) ---- */
+["#s1-grid","#s2-grid","#s3-grid","#s4-grid","#s6-grid","#s7-grid"].forEach(function(sel){
+  gsap.set(sel, { transformPerspective: 1000, rotationX: 61, scale: 1.45, transformOrigin: "50% 70%" });
+});
+
+/* ---- constant isometric card poses ---- */
+gsap.set("#s2-card", { transformPerspective: 2000, rotationX: 6, rotationY: -11, rotationZ: 0.6, transformOrigin: "50% 50%" });
+gsap.set("#s4-c1",  { transformPerspective: 2200, rotationX: 9,  rotationY: -17, rotationZ: 1.2 });
+gsap.set("#s4-c2",  { transformPerspective: 2200, rotationX: 9,  rotationY: -17, rotationZ: 1.2 });
+gsap.set("#s4-c3",  { transformPerspective: 2200, rotationX: 9,  rotationY: -17, rotationZ: 1.2 });
+gsap.set("#s3-card",{ transformPerspective: 2400, rotationZ: -2.2 });
+
+/* =================== SCENE VISIBILITY (hard cuts) =================== */
+tl.set("#s1", { autoAlpha: 0 }, 2.0);
+tl.set("#s2", { autoAlpha: 1 }, 2.0);  tl.set("#s2", { autoAlpha: 0 }, 4.5);
+tl.set("#s3", { autoAlpha: 1 }, 4.5);  tl.set("#s3", { autoAlpha: 0 }, 6.0);
+tl.set("#s4", { autoAlpha: 1 }, 6.0);  tl.set("#s4", { autoAlpha: 0 }, 9.5);
+tl.set("#s5", { autoAlpha: 1 }, 9.5);  tl.set("#s5", { autoAlpha: 0 }, 12.0);
+tl.set("#s6", { autoAlpha: 1 }, 12.0); tl.set("#s6", { autoAlpha: 0 }, 13.5);
+tl.set("#s7", { autoAlpha: 1 }, 13.5);
+
+/* =================== SCENE 1 — LEAK (0 - 2.0) =================== */
+tl.from("#s1-t1", { autoAlpha: 0, x: -26, duration: .45, ease: "power2.out" }, 0.10);
+tl.from("#s1-t2", { autoAlpha: 0, x:  26, duration: .45, ease: "power2.out" }, 0.18);
+tl.from("#s1-t3", { autoAlpha: 0, x: -26, duration: .45, ease: "power2.out" }, 0.26);
+tl.from("#s1-t4", { autoAlpha: 0, x:  26, duration: .45, ease: "power2.out" }, 0.34);
+tl.from("#s1-warn", { autoAlpha: 0, scale: .4, duration: .4, ease: "back.out(2.4)", transformOrigin: "50% 50%" }, 0.30);
+tl.from("#s1-leak", { autoAlpha: 0, scaleX: 2.2, scaleY: .55, duration: .34, ease: "expo.out", transformOrigin: "50% 50%" }, 0.42);
+tl.from("#s1-sub",  { autoAlpha: 0, y: 18, duration: .4, ease: "power2.out" }, 0.72);
+/* progressive de-blur of the leaked frame + slow push */
+tl.to("#s1-blur", { filter: "blur(16px) saturate(1.5) brightness(.95)", opacity: .72, duration: 1.7, ease: "power2.inOut" }, 0.15);
+tl.fromTo("#s1-blur", { scale: 1.16 }, { scale: 1.02, duration: 1.9, ease: "sine.out" }, 0.05);
+/* cyan scan line sweeps the frame twice */
+tl.fromTo("#s1-scan", { y: -40 }, { y: 1120, duration: .9, ease: "none", repeat: 1 }, 0.12);
+/* RGB split glitch pulses (deterministic hard-coded jitter) */
+[[0.60,-16,13],[0.62,9,-11],[0.64,0,0],[1.02,-22,18],[1.04,12,-15],[1.06,0,0],[1.46,-13,10],[1.48,8,-7],[1.50,0,0]]
+  .forEach(function(k){
+    tl.set("#s1-lm", { x: k[1], y: k[1] > 0 ? 3 : -3 }, k[0]);
+    tl.set("#s1-lc", { x: k[2], y: k[2] > 0 ? -3 : 3 }, k[0]);
+  });
+tl.set("#s1-tear1", { x: 0, opacity: 0 }, 0);
+[[0.60,.55,-70],[0.66,0,0],[1.02,.5,54],[1.08,0,0],[1.46,.45,-38],[1.52,0,0]].forEach(function(k){
+  tl.set("#s1-tear1", { opacity: k[1], x: k[2] }, k[0]);
+  tl.set("#s1-tear2", { opacity: k[1] * .8, x: -k[2] }, k[0]);
+});
+tl.to("#s1-gm", { opacity: .46, duration: .9, ease: "sine.inOut", yoyo: true, repeat: 1 }, 0.10);
+tl.to("#s1-grid", { y: -58, duration: 1.9, ease: "none" }, 0.05);
+
+/* =================== SCENE 2 — REVEAL (2.0 - 4.5) =================== */
+tl.from("#s2-card", { autoAlpha: 0, z: -900, rotationY: -34, duration: .62, ease: "power4.out" }, 2.06);
+tl.fromTo("#s2-media", { scale: 1.0 }, { scale: 1.13, duration: 2.42, ease: "sine.inOut" }, 2.06);
+tl.to("#s2-card", { rotationY: -6.5, rotationX: 4, duration: 2.3, ease: "sine.inOut" }, 2.18);
+tl.fromTo("#s2-sweep", { x: -640 }, { x: 2060, duration: .85, ease: "power2.inOut" }, 3.28);
+tl.from("#s2-tag", { autoAlpha: 0, x: -24, duration: .4, ease: "power2.out" }, 2.22);
+tl.from("#s2-w1", { autoAlpha: 0, yPercent: 115, skewX: 9, duration: .42, ease: "power4.out" }, 2.30);
+tl.from("#s2-w2", { autoAlpha: 0, yPercent: 115, skewX: 9, duration: .42, ease: "power4.out" }, 2.62);
+tl.from("#s2-w3", { autoAlpha: 0, yPercent: 115, skewX: 9, duration: .42, ease: "back.out(1.5)" }, 2.94);
+tl.from("#s2-bar", { scaleX: 0, duration: .52, ease: "expo.out" }, 3.18);
+tl.to("#s2-bar",   { width: 980, duration: .9, ease: "power2.inOut" }, 3.52);
+tl.to("#s2-grid", { y: -46, duration: 2.44, ease: "none" }, 2.02);
+
+/* =================== SCENE 3 — ANDRANOMENA (4.5 - 6.0) =================== */
+tl.fromTo("#s3-media", { scale: 1.22 }, { scale: 1.04, duration: 1.46, ease: "power2.out" }, 4.52);
+tl.from("#s3-card", { autoAlpha: 0, duration: .22, ease: "none" }, 4.50);
+tl.from("#s3-kick", { autoAlpha: 0, y: 16, duration: .34, ease: "power2.out" }, 4.56);
+tl.from("#s3 .ch", { autoAlpha: 0, yPercent: 90, rotationX: -70, duration: .46, ease: "power4.out",
+  stagger: { each: .035, from: "start" }, transformOrigin: "50% 100%" }, 4.62);
+tl.from("#s3-rule", { scaleX: 0, duration: .5, ease: "expo.out" }, 5.02);
+tl.fromTo("#s3-st1", { x: 0 }, { x: 2400, duration: .72, ease: "power3.in" }, 4.58);
+tl.fromTo("#s3-st2", { x: 0 }, { x: 2400, duration: .78, ease: "power3.in" }, 4.74);
+tl.to("#s3-lock", { scale: 1.045, duration: 1.4, ease: "sine.inOut" }, 4.56);
+tl.to("#s3-grid", { y: -34, duration: 1.46, ease: "none" }, 4.52);
+
+/* =================== SCENE 4 — TRIPTYQUE (6.0 - 9.5) =================== */
+tl.from("#s4-tag", { autoAlpha: 0, x: -24, duration: .4, ease: "power2.out" }, 6.08);
+[["#s4-c1","#s4-m1","#s4-l1",6.10],["#s4-c2","#s4-m2","#s4-l2",7.10],["#s4-c3","#s4-m3","#s4-l3",8.10]]
+  .forEach(function(g, i){
+    var t = g[3];
+    tl.from(g[0], { autoAlpha: 0, z: -1100, y: 150, rotationY: -46, duration: .52, ease: "power4.out" }, t);
+    tl.fromTo(g[1], { scale: 1.0 }, { scale: 1.14, duration: 3.3 - i * 1.0, ease: "sine.inOut" }, t);
+    tl.from(g[2], { autoAlpha: 0, yPercent: 110, duration: .38, ease: "back.out(1.6)" }, t + .20);
+    /* glitch flash on each card landing */
+    tl.set("#s4-flash", { opacity: .32 }, t + .02);
+    tl.set("#s4-flash", { opacity: 0 },   t + .07);
+  });
+/* mid-scene parallax drift of the whole isometric stack */
+tl.fromTo("#s4-stack", { x: 46, y: 22 }, { x: -46, y: -22, duration: 3.4, ease: "sine.inOut" }, 6.05);
+tl.to("#s4-c1", { y: "-=16", duration: .85, ease: "sine.inOut", yoyo: true, repeat: 1 }, 6.70);
+tl.to("#s4-c2", { y: "-=16", duration: .85, ease: "sine.inOut", yoyo: true, repeat: 1 }, 7.70);
+tl.to("#s4-grid", { y: -70, duration: 3.45, ease: "none" }, 6.02);
+
+/* =================== SCENE 5 — LOGO (9.5 - 12.0) =================== */
+tl.fromTo("#s5-media", { scale: 1.02, x: 55 }, { scale: 1.13, x: 132, duration: 2.46, ease: "power2.out" }, 9.52);
+tl.fromTo("#s5-dark", { opacity: .14 }, { opacity: .5, duration: 1.1, ease: "power2.out" }, 9.52);
+tl.from("#s5-scrim", { autoAlpha: 0, duration: .55, ease: "power2.out" }, 9.56);
+tl.from("#s5-br", { autoAlpha: 0, scale: 1.3, duration: .5, ease: "power4.out", transformOrigin: "50% 50%" }, 9.60);
+tl.from("#s5-brtag", { autoAlpha: 0, x: -18, duration: .4, ease: "power2.out" }, 9.82);
+tl.from("#s5-ball", { autoAlpha: 0, scale: .2, rotation: -140, duration: .55, ease: "back.out(2.2)", transformOrigin: "50% 50%" }, 9.66);
+tl.from("#s5-n1", { autoAlpha: 0, yPercent: 80, duration: .5, ease: "power4.out" }, 9.82);
+tl.from("#s5-n2", { autoAlpha: 0, yPercent: 80, duration: .5, ease: "power4.out" }, 9.96);
+tl.from("#s5-sub", { autoAlpha: 0, letterSpacing: "0.9em", duration: .7, ease: "expo.out" }, 10.18);
+tl.from("#s5-r1", { scaleX: 0, duration: .6, ease: "expo.out" }, 10.04);
+tl.from("#s5-r2", { scaleX: 0, duration: .6, ease: "expo.out" }, 10.04);
+tl.to("#s5-lock", { scale: 1.035, duration: 1.9, ease: "sine.inOut", transformOrigin: "0% 50%" }, 10.0);
+tl.to("#s5-ball", { y: -12, duration: .8, ease: "sine.inOut", yoyo: true, repeat: 1 }, 10.3);
+tl.to("#s5-br", { opacity: .55, duration: .6, ease: "sine.inOut", yoyo: true, repeat: 1 }, 10.6);
+
+/* =================== SCENE 6 — COMING SOON (12.0 - 13.5) =================== */
+tl.from("#s6-ball", { autoAlpha: 0, scale: .15, duration: .42, ease: "back.out(2.6)", transformOrigin: "50% 50%" }, 12.04);
+tl.from("#s6 .ch", { autoAlpha: 0, yPercent: 120, scaleY: 1.8, duration: .4, ease: "power4.out",
+  stagger: { each: .028, from: "start" }, transformOrigin: "50% 100%" }, 12.16);
+tl.from("#s6-sub", { autoAlpha: 0, y: 20, duration: .4, ease: "power2.out" }, 12.56);
+/* impact flash + screen shake (deterministic) */
+tl.set("#s6-flash", { opacity: .5 }, 12.16);
+tl.set("#s6-flash", { opacity: 0 },  12.22);
+[[12.18,-14,8],[12.22,11,-9],[12.26,-7,5],[12.30,4,-3],[12.34,0,0]].forEach(function(k){
+  tl.set("#s6-shake", { x: k[1], y: k[2] }, k[0]);
+});
+tl.to("#s6-gm", { opacity: .52, scale: 1.12, duration: .7, ease: "sine.inOut", yoyo: true, repeat: 1 }, 12.10);
+tl.to("#s6-grid", { y: -40, duration: 1.45, ease: "none" }, 12.02);
+tl.to("#s6-ball", { rotation: 16, duration: 1.2, ease: "sine.inOut" }, 12.2);
+
+/* =================== SCENE 7 — CARTE FINALE (13.5 - 15.0) =================== */
+tl.from("#s7-ball", { autoAlpha: 0, scale: .4, duration: .4, ease: "back.out(2)", transformOrigin: "50% 50%" }, 13.54);
+tl.from("#s7-n",    { autoAlpha: 0, yPercent: 48, duration: .5, ease: "power4.out" }, 13.60);
+tl.from("#s7-loc",  { autoAlpha: 0, letterSpacing: "1em", duration: .6, ease: "expo.out" }, 13.76);
+tl.from("#s7-open", { autoAlpha: 0, y: 24, duration: .44, ease: "back.out(1.5)" }, 13.92);
+tl.from("#s7-r1",   { scaleX: 0, duration: .55, ease: "expo.out" }, 13.70);
+tl.from("#s7-r2",   { scaleX: 0, duration: .55, ease: "expo.out" }, 13.70);
+tl.fromTo("#s7-scan", { y: -30 }, { y: 1110, duration: 1.1, ease: "none" }, 13.70);
+tl.to("#s7-gm", { opacity: .4, duration: .62, ease: "sine.inOut", yoyo: true, repeat: 1 }, 13.66);
+tl.to("#s7-lock", { scale: 1.028, duration: 1.4, ease: "sine.inOut" }, 13.6);
+tl.to("#s7-grid", { y: -26, duration: 1.48, ease: "none" }, 13.52);
+/* neon flicker on the wordmark (deterministic) */
+[[14.02,.62],[14.06,1],[14.14,.5],[14.17,1],[14.62,.72],[14.66,1]].forEach(function(k){
+  tl.set("#s7-n", { opacity: k[1] }, k[0]);
+});
+
+window.__timelines["main"] = tl;
+</script>
+</body>
+</html>
